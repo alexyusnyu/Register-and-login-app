@@ -1,5 +1,6 @@
 import sqlite3
-from tkinter import Tk, Label, Entry, Button, StringVar, Toplevel, messagebox, Listbox, END, ANCHOR
+import tkinter as tk
+from tkinter import ttk, messagebox
 from PIL import Image, ImageTk
 
 # Create a connection to the SQLite database
@@ -62,7 +63,7 @@ def login():
 
 
 def open_main_app_window():
-    main_app_window = Toplevel(window)
+    main_app_window = tk.Toplevel(window)
     main_app_window.title("Main App")
 
     # Load the image
@@ -70,79 +71,94 @@ def open_main_app_window():
     image = image.resize((400, 400), Image.ANTIALIAS)
     photo = ImageTk.PhotoImage(image)
 
-    image_label = Label(main_app_window, image=photo)
+    image_label = tk.Label(main_app_window, image=photo)
     image_label.pack(padx=10, pady=10)
     image_label.image = photo
 
-    logout_button = Button(main_app_window, text="Logout", command=close_main_app_window, font=("Arial", 14))
+    logout_button = tk.Button(main_app_window, text="Logout", command=lambda: close_main_app_window(main_app_window),
+                             font=("Arial", 14), bg="#007BFF", fg="white")
     logout_button.pack(pady=10)
 
     # Create a label to display database information
-    database_label = Label(main_app_window, text="Database Information", font=("Arial", 14, "bold"))
+    database_label = tk.Label(main_app_window, text="Database Information", font=("Arial", 14, "bold"))
     database_label.pack(pady=10)
 
     # Retrieve all rows from the database
     cursor.execute("SELECT * FROM users")
     users = cursor.fetchall()
 
-    # Create a listbox to display the users
-    listbox = Listbox(main_app_window, width=50)
-    listbox.pack(pady=10)
+    # Create a Treeview to display the users
+    user_tree = ttk.Treeview(main_app_window, columns=("ID", "Username"), show="headings", selectmode="browse")
+    user_tree.heading("ID", text="ID")
+    user_tree.heading("Username", text="Username")
+    user_tree.pack(pady=10)
 
     for user in users:
-        listbox.insert(END, f"ID: {user[0]}, Username: {user[1]}")
+        user_tree.insert("", "end", values=(user[0], user[1]))
 
     # Create a delete button to remove selected user
-    delete_button = Button(main_app_window, text="Delete User", command=lambda: delete_user(listbox),
-                           font=("Arial", 14))
+    delete_button = tk.Button(main_app_window, text="Delete User", command=lambda: delete_user(user_tree),
+                              font=("Arial", 14), bg="#DC3545", fg="white")
     delete_button.pack(pady=10)
 
 
-def delete_user(listbox):
-    selected_user = listbox.get(ANCHOR)
+def delete_user(user_tree):
+    selected_item = user_tree.selection()
 
-    if selected_user:
-        user_id = selected_user.split(":")[1].strip()
+    if selected_item:
+        user_id = user_tree.item(selected_item, "values")[0]
         cursor.execute("DELETE FROM users WHERE id=?", (user_id,))
         conn.commit()
         messagebox.showinfo("User Deleted", "User has been deleted successfully.")
-        listbox.delete(ANCHOR)
+        user_tree.delete(selected_item)
     else:
         messagebox.showwarning("No User Selected", "Please select a user to delete.")
 
 
-def close_main_app_window(main_app_window=None):
+def close_main_app_window(main_app_window):
     messagebox.showinfo("Logout", "Logged out successfully")
     main_app_window.destroy()
 
 
 # Create the main window
-window = Tk()
-window.title("Register and Login app by slayer1649")
+window = tk.Tk()
+window.title("Register and Login app")
+
+# Set window size and position
+window_width = 400
+window_height = 300
+screen_width = window.winfo_screenwidth()
+screen_height = window.winfo_screenheight()
+x_coordinate = (screen_width / 2) - (window_width / 2)
+y_coordinate = (screen_height / 2) - (window_height / 2)
+window.geometry("%dx%d+%d+%d" % (window_width, window_height, x_coordinate, y_coordinate))
+
+# Set window background color
+window.configure(bg="#F0F0F0")
 
 # Create and position the username label and entry field
-username_label = Label(window, text="Username:", font=("Arial", 14))
+username_label = tk.Label(window, text="Username:", font=("Arial", 14), bg="#F0F0F0")
 username_label.grid(row=0, column=0, padx=10, pady=5)
-username_entry = Entry(window, font=("Arial", 14))
+username_entry = tk.Entry(window, font=("Arial", 14))
 username_entry.grid(row=0, column=1, padx=10, pady=5)
 
 # Create and position the password label and entry field
-password_label = Label(window, text="Password:", font=("Arial", 14))
+password_label = tk.Label(window, text="Password:", font=("Arial", 14), bg="#F0F0F0")
 password_label.grid(row=1, column=0, padx=10, pady=5)
-password_entry = Entry(window, show="*", font=("Arial", 14))
+password_entry = tk.Entry(window, show="*", font=("Arial", 14))
 password_entry.grid(row=1, column=1, padx=10, pady=5)
 
 # Create and position the register button
-register_button = Button(window, text="Register", command=register, font=("Arial", 14))
+register_button = tk.Button(window, text="Register", command=register, font=("Arial", 14), bg="#28A745", fg="white")
 register_button.grid(row=2, column=0, padx=10, pady=10, columnspan=2)
 
 # Create and position the login button
-login_button = Button(window, text="Login", command=login, font=("Arial", 14))
+login_button = tk.Button(window, text="Login", command=login, font=("Arial", 14), bg="#007BFF", fg="white")
 login_button.grid(row=3, column=0, padx=10, pady=10, columnspan=2)
 
 # Create and position the status label
-status_var = StringVar()
-status_label = Label(window, textvariable=status_var, font=("Arial", 12), fg="black")
+status_var = tk.StringVar()
+status_label = tk.Label(window, textvariable=status_var, font=("Arial", 12), fg="black", bg="#F0F0F0")
 status_label.grid(row=4, column=0, columnspan=2, padx=10, pady=5)
 
 # Start the main loop
