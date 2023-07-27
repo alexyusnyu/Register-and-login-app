@@ -18,27 +18,42 @@ cursor.execute('''
 conn.commit()
 
 
+def show_error_message(message):
+    error_window = tk.Toplevel(window)
+    error_window.title("Error")
+    error_window.configure(bg="black")
+
+    error_label = tk.Label(error_window, text=message, font=("Arial", 14), fg="red", bg="black")
+    error_label.pack(padx=20, pady=10)
+
+    ok_button = tk.Button(error_window, text="OK", command=error_window.destroy, font=("Arial", 14), bg="red", fg="white")
+    ok_button.pack(pady=10)
+
+
 def register():
     username = username_entry.get()
     password = password_entry.get()
 
-    # Check if the username is already taken
-    cursor.execute("SELECT * FROM users WHERE username=?", (username,))
-    existing_user = cursor.fetchone()
-
-    if existing_user:
-        status_var.set("Username already taken")
-        status_label.config(fg="red")
+    if len(username) < 3 or len(password) < 3:
+        show_error_message("Username and password must contain more than 2 characters")
     else:
-        # Insert the new user into the database
-        cursor.execute("INSERT INTO users (username, password) VALUES (?, ?)", (username, password))
-        conn.commit()
-        status_var.set("Registration successful")
-        status_label.config(fg="green")
+        # Check if the username is already taken
+        cursor.execute("SELECT * FROM users WHERE username=?", (username,))
+        existing_user = cursor.fetchone()
 
-    # Clear the entry fields after registration
-    username_entry.delete(0, 'end')
-    password_entry.delete(0, 'end')
+        if existing_user:
+            status_var.set("Username already taken")
+            status_label.config(fg="red")
+        else:
+            # Insert the new user into the database
+            cursor.execute("INSERT INTO users (username, password) VALUES (?, ?)", (username, password))
+            conn.commit()
+            status_var.set("Registration successful")
+            status_label.config(fg="green")
+
+        # Clear the entry fields after registration
+        username_entry.delete(0, 'end')
+        password_entry.delete(0, 'end')
 
 
 def login():
@@ -65,13 +80,14 @@ def login():
 def open_main_app_window():
     main_app_window = tk.Toplevel(window)
     main_app_window.title("Main App")
+    main_app_window.configure(bg="black")
 
     # Load the image
     image = Image.open("image.png")
     image = image.resize((400, 400), Image.ANTIALIAS)
     photo = ImageTk.PhotoImage(image)
 
-    image_label = tk.Label(main_app_window, image=photo)
+    image_label = tk.Label(main_app_window, image=photo, bg="black")
     image_label.pack(padx=10, pady=10)
     image_label.image = photo
 
@@ -80,7 +96,7 @@ def open_main_app_window():
     logout_button.pack(pady=10)
 
     # Create a label to display database information
-    database_label = tk.Label(main_app_window, text="Database Information", font=("Arial", 14, "bold"))
+    database_label = tk.Label(main_app_window, text="Database Information", font=("Arial", 14, "bold"), bg="black", fg="white")
     database_label.pack(pady=10)
 
     # Retrieve all rows from the database
@@ -123,6 +139,7 @@ def close_main_app_window(main_app_window):
 # Create the main window
 window = tk.Tk()
 window.title("Register and Login app")
+window.configure(bg="black")
 
 # Set window size and position
 window_width = 400
@@ -133,25 +150,34 @@ x_coordinate = (screen_width / 2) - (window_width / 2)
 y_coordinate = (screen_height / 2) - (window_height / 2)
 window.geometry("%dx%d+%d+%d" % (window_width, window_height, x_coordinate, y_coordinate))
 
-# Set window background image
-bg_image = Image.open("background_image.jpg")
-bg_image = bg_image.resize((window_width, window_height), Image.ANTIALIAS)
-background_image = ImageTk.PhotoImage(bg_image)
+# Make the window responsive
+window.grid_rowconfigure(0, weight=1)
+window.grid_rowconfigure(1, weight=1)
+window.grid_rowconfigure(2, weight=1)
+window.grid_rowconfigure(3, weight=1)
+window.grid_rowconfigure(4, weight=1)
+window.grid_columnconfigure(0, weight=1)
+window.grid_columnconfigure(1, weight=1)
 
-bg_label = tk.Label(window, image=background_image)
-bg_label.place(x=0, y=0, relwidth=1, relheight=1)
+# Add Background Image
+background_image = Image.open("background_image.png")
+background_image = background_image.resize((window_width, window_height), Image.ANTIALIAS)
+background_photo = ImageTk.PhotoImage(background_image)
+
+background_label = tk.Label(window, image=background_photo)
+background_label.place(x=0, y=0, relwidth=1, relheight=1)
 
 # Create and position the username label and entry field
-username_label = tk.Label(window, text="Username:", font=("Arial", 14), bg="#F0F0F0")
-username_label.grid(row=0, column=0, padx=10, pady=5)
-username_entry = tk.Entry(window, font=("Arial", 14))
-username_entry.grid(row=0, column=1, padx=10, pady=5)
+username_label = tk.Label(window, text="Username:", font=("Arial", 14), bg="black", fg="white")
+username_label.grid(row=0, column=0, padx=10, pady=5, sticky="e")
+username_entry = tk.Entry(window, font=("Arial", 14), bg="black", fg="white")
+username_entry.grid(row=0, column=1, padx=10, pady=5, sticky="w")
 
 # Create and position the password label and entry field
-password_label = tk.Label(window, text="Password:", font=("Arial", 14), bg="#F0F0F0")
-password_label.grid(row=1, column=0, padx=10, pady=5)
-password_entry = tk.Entry(window, show="*", font=("Arial", 14))
-password_entry.grid(row=1, column=1, padx=10, pady=5)
+password_label = tk.Label(window, text="Password:", font=("Arial", 14), bg="black", fg="white")
+password_label.grid(row=1, column=0, padx=10, pady=5, sticky="e")
+password_entry = tk.Entry(window, show="*", font=("Arial", 14), bg="black", fg="white")
+password_entry.grid(row=1, column=1, padx=10, pady=5, sticky="w")
 
 # Create and position the register button
 register_button = tk.Button(window, text="Register", command=register, font=("Arial", 14), bg="#28A745", fg="white")
@@ -163,7 +189,7 @@ login_button.grid(row=3, column=0, padx=10, pady=10, columnspan=2)
 
 # Create and position the status label
 status_var = tk.StringVar()
-status_label = tk.Label(window, textvariable=status_var, font=("Arial", 12), fg="black", bg="#F0F0F0")
+status_label = tk.Label(window, textvariable=status_var, font=("Arial", 12), fg="white", bg="black")
 status_label.grid(row=4, column=0, columnspan=2, padx=10, pady=5)
 
 # Start the main loop
