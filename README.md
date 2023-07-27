@@ -7,8 +7,8 @@ The app features a modern and sleek dark mode user interface, making it easy on 
 
 ## Screenshots
 
-<img src="screenshot1.bmp" width="400" height="400">
-<img src="screenshot2.bmp" width="400" height="400">
+<img src="screenshot1.bmp" width="400" height="300">
+<img src="screenshot2.bmp" width="400" height="300">
 
 
 ## Requirements
@@ -26,3 +26,5 @@ Contributions are welcome! If you find any bugs or have suggestions for improvem
 
 ## License
 This project is licensed under the MIT License.
+
+Author: sh4dowpunk
