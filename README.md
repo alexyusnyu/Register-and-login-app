@@ -1,10 +1,9 @@
-Register and Login App
+# Register and Login App
 
-
-Overview
+## Overview
 This application is a user registration and login system developed using Python and Tkinter. It provides a secure and straightforward way for users to register and log in to access the main app window. The app stores user information in a SQLite database, offering efficient data management.
 
-Features
+## Features
 User Registration: Users can easily create an account by providing a unique username and password.
 
 User Login: Registered users can securely log in to their accounts using their username and password.
@@ -18,12 +17,14 @@ Database Information: Users can browse through the database information, which i
 User Deletion: The app allows administrators to delete users when necessary, ensuring proper user management.
 
 
-![App Demo](app preview.gif)
+![Register_and_login_app](app preview.gif)
 
-Code Explanation
+## Code Explanation
 The app is written in Python and uses the Tkinter library for the graphical user interface. The SQLite database is used to store user information.
 
 
-License
+## License
 This project is licensed under the MIT License.
 
+
+**Author:** sh4dowpunk
