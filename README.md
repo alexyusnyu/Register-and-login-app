@@ -19,7 +19,7 @@ Pillow library (pip install Pillow)
 * Clone the repository: git clone https://github.com/your-username/register-login-app.git
 * Navigate to the project directory: cd register-login-app
 * Install the required dependencies: pip install Pillow
-* Run the app: python main.py
+* Run the app: python app.py
 
 ## Contribution
 Contributions are welcome! If you find any bugs or have suggestions for improvements, feel free to open an issue or submit a pull request.
