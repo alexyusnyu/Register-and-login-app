@@ -17,7 +17,7 @@ Database Information: Users can browse through the database information, which i
 User Deletion: The app allows administrators to delete users when necessary, ensuring proper user management.
 
 
-![Register_and_login_app](app preview.gif)
+![App Preview](./app preview.gif)
 
 ## Code Explanation
 The app is written in Python and uses the Tkinter library for the graphical user interface. The SQLite database is used to store user information.
