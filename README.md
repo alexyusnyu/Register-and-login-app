@@ -7,18 +7,18 @@ The app features a modern and sleek dark mode user interface, making it easy on 
 
 ## Screenshots
 
-![](screenshot1.png)
-![](screenshot1.png)
+![](screenshot1.bmp)
+![](screenshot1.bmp)
 
 ## Requirements
 Python 3.x
 Pillow library (pip install Pillow) 
 
 ## How to Use
-Clone the repository: git clone https://github.com/your-username/register-login-app.git
-Navigate to the project directory: cd register-login-app
-Install the required dependencies: pip install Pillow
-Run the app: python main.py
+* Clone the repository: git clone https://github.com/your-username/register-login-app.git
+* Navigate to the project directory: cd register-login-app
+* Install the required dependencies: pip install Pillow
+* Run the app: python main.py
 
 ## Contribution
 Contributions are welcome! If you find any bugs or have suggestions for improvements, feel free to open an issue or submit a pull request.
