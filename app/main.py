@@ -35,7 +35,7 @@ def register():
     password = password_entry.get()
 
     if len(username) < 3 or len(password) < 3:
-        show_error_message("Username and password must contain more than 2 characters")
+        show_error_message("Username and password must contain more than 3 characters")
     else:
         # Check if the username is already taken
         cursor.execute("SELECT * FROM users WHERE username=?", (username,))
