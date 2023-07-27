@@ -7,7 +7,8 @@ The app features a modern and sleek dark mode user interface, making it easy on 
 
 ## Screenshots
 
-
+![](screenshot1.png)
+![](screenshot1.png)
 
 ## Requirements
 Python 3.x
