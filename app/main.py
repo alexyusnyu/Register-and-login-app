@@ -133,8 +133,13 @@ x_coordinate = (screen_width / 2) - (window_width / 2)
 y_coordinate = (screen_height / 2) - (window_height / 2)
 window.geometry("%dx%d+%d+%d" % (window_width, window_height, x_coordinate, y_coordinate))
 
-# Set window background color
-window.configure(bg="#F0F0F0")
+# Set window background image
+bg_image = Image.open("background_image.jpg")
+bg_image = bg_image.resize((window_width, window_height), Image.ANTIALIAS)
+background_image = ImageTk.PhotoImage(bg_image)
+
+bg_label = tk.Label(window, image=background_image)
+bg_label.place(x=0, y=0, relwidth=1, relheight=1)
 
 # Create and position the username label and entry field
 username_label = tk.Label(window, text="Username:", font=("Arial", 14), bg="#F0F0F0")
