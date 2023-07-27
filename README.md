@@ -7,8 +7,9 @@ The app features a modern and sleek dark mode user interface, making it easy on 
 
 ## Screenshots
 
-![](screenshot1.bmp)
-![](screenshot2.bmp)
+<img src="screenshot1.bmp" width="400" height="400">
+<img src="screenshot2.bmp" width="400" height="400">
+
 
 ## Requirements
 Python 3.x
